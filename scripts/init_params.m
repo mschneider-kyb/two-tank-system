@@ -11,10 +11,8 @@ p.Dmo_cm = 0.4;
 p.Dlo_cm = 0.5;
 
 % tank diameters
-p.Dt1_cm = 6;
-p.Dt2_cm = 5;
-p.Dt1 = cm2m(p.Dt1_cm);
-p.Dt2 = cm2m(p.Dt2_cm);
+p.Dt1 = cm2m(6);
+p.Dt2 = cm2m(5);
 
 % outflow diameters
 p.Do1 = cm2m(p.Dmo_cm);
@@ -25,6 +23,12 @@ p.A1 = dia2area(p.Dt1);
 p.A2 = dia2area(p.Dt2);
 p.a1 = dia2area(p.Do1);
 p.a2 = dia2area(p.Do2);
+
+% stationary states
+p.h2_bar = cm2m(8);
+p.h1_bar = (p.a2/p.a1)^2 * p.h2_bar; 
+p.d_bar = 0;
+p.v_bar = p.a1*p.mu*sqrt(2*p.g*p.h1_bar) + p.d_bar;
 
 function m = cm2m(cm)
     m = cm / 100;
