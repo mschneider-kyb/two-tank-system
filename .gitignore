@@ -1,0 +1,37 @@
+# MATLAB spezifisch
+*.asv
+*.mex*
+*.slxc
+*.p
+*.m~
+resources/
+
+# Simulink Generate Code & Simulation Data
+slprj/
+*_ert_rtw/
+*_grt_rtw/
+cat_mldatx/
+
+# MATLAB Projekt-Management
+.SimulinkProject/
+.LocalProject/
+
+# Daten und Logs
+*.log
+*.mat# Achtung: Nur ausschließen, wenn Ergebnisse groß sind.
+                   # Wenn .mat-Dateien Konfigurationen enthalten, wieder aufnehmen!
+
+# Tool-spezifisch (z.B. App Designer oder Report Generator)
+*.mlapptool
+*.rpt
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+casadi*
