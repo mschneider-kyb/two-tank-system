@@ -1,30 +1,30 @@
 % load parameters
 
-g = 9.81; 
-mu = 0;
+p.g = 9.81; 
+p.mu = 0;
 
 % small outflow diameter (cm)
-Dso_cm = 0.3;
+p.Dso_cm = 0.3;
 % medium outflow diameter (cm)
-Dmo_cm = 0.4;
+p.Dmo_cm = 0.4;
 % large outflow diameter (cm)
-Dlo_cm = 0.5;
+p.Dlo_cm = 0.5;
 
 % tank diameters
-Dt1_cm = 6;
-Dt2_cm = 5;
-Dt1 = cm2m(Dt1_cm);
-Dt2 = cm2m(Dt2_cm);
+p.Dt1_cm = 6;
+p.Dt2_cm = 5;
+p.Dt1 = cm2m(p.Dt1_cm);
+p.Dt2 = cm2m(p.Dt2_cm);
 
 % outflow diameters
-Do1 = cm2m(Dmo_cm);
-Do2 = cm2m(Dmo_cm);
+p.Do1 = cm2m(p.Dmo_cm);
+p.Do2 = cm2m(p.Dmo_cm);
 
 % areas
-A1 = dia2area(Dt1);
-A2 = dia2area(Dt2);
-a1 = dia2area(Do1);
-a2 = dia2area(Do2);
+p.A1 = dia2area(p.Dt1);
+p.A2 = dia2area(p.Dt2);
+p.a1 = dia2area(p.Do1);
+p.a2 = dia2area(p.Do2);
 
 function m = cm2m(cm)
     m = cm / 100;
