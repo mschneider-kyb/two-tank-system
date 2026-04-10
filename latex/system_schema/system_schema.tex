@@ -1,9 +1,10 @@
 \documentclass[tikz, border=15pt]{standalone}
-\usetikzlibrary{arrows.meta, shapes.geometric, calc}
+\usetikzlibrary{arrows.meta, shapes.geometric, calc, backgrounds}
 
 \begin{document}
 \begin{tikzpicture}[
-    % Define styles for reusable components
+	background rectangle/.style={fill=white},
+    show background rectangle,
     tank/.style={draw, thick, fill=white, minimum height=3.5cm, minimum width=2cm},
     water/.style={fill=blue!50}, 
     pump/.style={draw, thick, circle, fill=white, minimum size=0.6cm}, 

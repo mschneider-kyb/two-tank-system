@@ -1,4 +1,9 @@
 
+# System Dynamics
+
+![system_scheme](data/for_readme/system_schema.svg)
+
+
 ## System specifications
 
 * maximum allowed height of tanks is 30cm
@@ -6,6 +11,8 @@
 * tank 2 has diameter 4cm
 * saturation of allowed volume flow of pump is 2*v_bar. We don't have a real system. In process engineering, actuators (such as pumps) are often designed to operate at their operating point at approximately 50% to 70% of their maximum capacity. Hence, we set the maximum allowed volume flow of the pump to be $2 \cdot v_{\text{bar}}$.
 * disturbance: simulates a second pump, pumping constantly water out of the first tank.
+
+# Control Design
 
 ## PI Controller
 
@@ -16,3 +23,5 @@
 * **System Dynamics & Delay**: Even with optimized controller parameters, the system's response to setpoint changes and disturbances remains slow. This is due to the physical coupling of the tanks: the control input only affects Tank 1 directly, creating a "propagation delay" before influencing the level in Tank 2.
 * **Disturbance Rejection**: The PI controller effectively compensates for external disturbances (e.g., constant outflow), but the recovery speed is constrained by the same physical time constants as the setpoint tracking.
 * **Linear vs. Non-linear Discrepancy**: While a controller designed for a linearized model can stabilize the non-linear system near the equilibrium point, physical limits (tank height, pump capacity) and non-linear flow characteristics require careful scaling and gain tuning to avoid "Bang-Bang" behavior.
+
+# Project Structure
