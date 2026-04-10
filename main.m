@@ -34,4 +34,6 @@ L = G*K;
 margin(L(1),{0.00001,10});
 grid on;
 
-
+% simulate
+out = sim("sim_pi_model", "StopTime", "1000");
+plot_results(out);

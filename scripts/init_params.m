@@ -4,15 +4,15 @@ p.g = 9.81;
 p.mu = 1;
 
 % small outflow diameter (cm)
-p.Dso_cm = 0.5;
+p.Dso_cm = 0.4;
 % medium outflow diameter (cm)
-p.Dmo_cm = 0.6;
+p.Dmo_cm = 0.5;
 % large outflow diameter (cm)
-p.Dlo_cm = 0.7;
+p.Dlo_cm = 0.6;
 
 % tank diameters
-p.Dt1 = cm2m(5);
-p.Dt2 = cm2m(4);
+p.Dt1 = cm2m(4);
+p.Dt2 = cm2m(3);
 
 % outflow diameters
 p.Do1 = cm2m(p.Dmo_cm);
