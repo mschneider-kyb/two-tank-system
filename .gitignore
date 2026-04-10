@@ -34,4 +34,14 @@ desktop.ini
 __pycache__/
 *.pyc
 
+# LaTeX artifacts
+*.aux
+*.log
+*.gz
+*.fls
+*.fdb_latexmk
+*.pdf
+*.toc
+*.out
+
 casadi*
