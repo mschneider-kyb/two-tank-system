@@ -58,6 +58,8 @@ The controller's task is to drive the error $\Delta h_2$ to zero.
 
 ### PI Controller
 
+![pi_control_scheme](data/for_readme/pi_control_loop.svg)
+
 #### Learnings
 
 * **Proportional Gain ($K_p$) & Stability**: Increasing $K_p$ improves responsiveness but leads to significant overshoot. Excessive values, especially in combination with integral action, drive the non-linear system into instability or high-frequency oscillations.

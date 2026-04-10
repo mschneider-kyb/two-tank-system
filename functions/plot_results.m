@@ -30,7 +30,14 @@ function plot_results(out)
 
     grid on;
     xlabel('Time [s]');
-    title('Simulation Results: 2-Tank-System');
+    modell_name = out.SimulationMetadata.ModelInfo.ModelName;
+    title(sprintf('Simulation Results: %s', modell_name), 'Interpreter', 'none');
     legend('Location', 'best');
+
+    if ~exist('data', 'dir')
+        mkdir('data');
+    end
+    filename = fullfile('data', [modell_name, '.png']);
+    saveas(gcf, filename);
 end
 
