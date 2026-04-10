@@ -27,9 +27,14 @@ p.a2 = dia2area(p.Do2);
 % stationary states
 p.h2_bar = cm2m(20);
 p.h1_bar = (p.a2/p.a1)^2 * p.h2_bar; 
-p.d_bar = 0;
-p.v_bar = p.a1*p.mu*sqrt(2*p.g*p.h1_bar) + p.d_bar;
+p.v_bar = p.a1*p.mu*sqrt(2*p.g*p.h1_bar);
 
+% disturbance
+p.d = 5e-6;                                     % [d] = m^3/s
+p.dt_on = 300;
+p.dt_off = 350;
+
+%% helper functions
 function m = cm2m(cm)
     m = cm / 100;
 end
