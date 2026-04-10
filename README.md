@@ -1,5 +1,7 @@
 # 2-Tank System: Simulation & Control
 
+![Status: WIP](https://img.shields.io/badge/Status-Work--in--Progress-yellow)
+
 This project implements a numerical simulation and control design for a non-linear, coupled two-tank system using MATLAB and Simulink. The goal is to regulate the liquid level in the second tank despite external disturbances.
 
 ## System Dynamics
