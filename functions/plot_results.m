@@ -19,7 +19,7 @@ function plot_results(out)
     hold on;
     plot(time, h2, '-', 'LineWidth', 1.5, 'DisplayName', 'Tank 2');
     ylabel('Fill Level [m]');
-    ylim([0.19, 0.22]);
+    ylim([0.19, 0.23]);
     
     % right axis
     yyaxis right

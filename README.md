@@ -68,4 +68,6 @@ The controller's task is to drive the error $\Delta h_2$ to zero.
 * **Disturbance Rejection**: The PI controller effectively compensates for external disturbances (e.g., constant outflow), but the recovery speed is constrained by the same physical time constants as the setpoint tracking.
 * **Linear vs. Non-linear Discrepancy**: While a controller designed for a linearized model can stabilize the non-linear system near the equilibrium point, physical limits (tank height, pump capacity) and non-linear flow characteristics require careful scaling and gain tuning to avoid "Bang-Bang" behavior.
 
+### Cascaded control using PI
+
 ## Project Structure

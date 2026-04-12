@@ -22,8 +22,8 @@ grid on;
 %% Output control using loopshaping
 
 % get controller
-Kp = 0.00015;
-Ki = 0.000001;
+Kp = 0.0009;
+Ki = 0.00005;
 K = pid(Kp,Ki);
 
 % Loop shaping is performed on the open-loop transfer function L(s) = K(s) * G_yv(s).
@@ -48,20 +48,30 @@ sys_new = ss(sys.A, sys.B, C_new, D_new);
 G_new = tf(sys_new);
 
 % choose controller
-Kp1 = 0.001;
+Kp1 = 0.12;
 Ki1 = 0.0;
 K1 = pid(Kp1,Ki1);
 
-Kp2 = 0.000001;
-Ki2 = 0.0;
+Kp2 = 3.5;
+Ki2 = 0.05;
 K2 = pid(Kp2,Ki2);
 
 % loop shape inner feedback loop
 L_in = G_new(1,1)*K1;
-margin(L_in,{0.00001,10});
+
+figure(1);
+margin(L_in,{1,1000});
 grid on;
 
 % loop shape outer feedback loop
-L_out = G_new(2,1)*K2;
-margin(L_out,{0.00001,10});
+sys_inner_cl = feedback(K1 * G_new(1,1), 1);
+G_outer = sys_inner_cl * G_new(2,1);
+L_out = G_outer*K2;
+
+figure(2);
+margin(L_out,{0.1,100});
 grid on;
+
+% simulate
+out_casc = sim("sim_cascade_model", "StopTime", "1000");
+plot_results(out_casc);
