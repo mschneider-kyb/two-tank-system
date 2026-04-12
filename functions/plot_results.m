@@ -15,9 +15,9 @@ function plot_results(out)
 
     % left axis
     yyaxis left
-    plot(time, h1, 'LineWidth', 1.5, 'DisplayName', 'Tank 1');
+    plot(time, h1, '--', 'LineWidth', 1.5, 'DisplayName', 'Tank 1');
     hold on;
-    plot(time, h2, 'LineWidth', 1.5, 'DisplayName', 'Tank 2');
+    plot(time, h2, '-', 'LineWidth', 1.5, 'DisplayName', 'Tank 2');
     ylabel('Fill Level [m]');
     ylim([0.19, 0.22]);
     

@@ -11,8 +11,8 @@ p.Dmo_cm = 0.5;
 p.Dlo_cm = 0.6;
 
 % tank diameters
-p.Dt1 = cm2m(4);
-p.Dt2 = cm2m(3);
+p.Dt1 = cm2m(5);
+p.Dt2 = cm2m(4.5);
 
 % outflow diameters
 p.Do1 = cm2m(p.Dmo_cm);

@@ -6,9 +6,9 @@ function sys = get_tank_ss(p)
     a11 = (p.a1*p.mu*p.g) / sqrt(2*p.g*p.h1_bar);
     a22 = (p.a2*p.mu*p.g) / sqrt(2*p.g*p.h2_bar);
 
-    A = [-a11 0;
-          a11 a22];
-    b1 = [1; 0];
+    A = [-a11/p.A1 0;
+          a11/p.A2 a22/p.A2];
+    b1 = [1/p.A1; 0];
     b2 = [-1/p.A1; 0];
     B = [b1 b2];
     C = [0 1];
