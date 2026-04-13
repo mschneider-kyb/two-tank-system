@@ -2,6 +2,7 @@
 
 p.g = 9.81; 
 p.mu = 1;
+p.h_max = cm2m(30);
 
 % small outflow diameter (cm)
 p.Dso_cm = 0.4;
