@@ -29,6 +29,7 @@ p.a2 = dia2area(p.Do2);
 p.h2_bar = cm2m(20);
 p.h1_bar = (p.a2/p.a1)^2 * p.h2_bar; 
 p.v_bar = p.a1*p.mu*sqrt(2*p.g*p.h1_bar);
+p.v_max = 2*p.v_bar;
 
 % disturbance
 p.d = 5e-6;                                     % [d] = m^3/s
