@@ -23,8 +23,8 @@ function plot_results(out)
     
     % right axis
     yyaxis right
-    plot(time, v, '--', 'LineWidth', 1.2, 'DisplayName', 'v (Pump)');
-    plot(time, d, '-', 'LineWidth', 1.2, 'DisplayName', 'd (Disturbance)');
+    plot(time, v, '-', 'LineWidth', 1.2, 'DisplayName', 'v (Pump)');
+    plot(time, d, '--', 'LineWidth', 1.2, 'DisplayName', 'd (Disturbance)');
     ylabel('Flow Rate [m^3/s]');
     set(gca, 'YScale', 'linear');
 
