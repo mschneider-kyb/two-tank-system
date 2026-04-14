@@ -96,8 +96,6 @@ To design the cascade, we follow a bottom-up approach, starting with the inner c
 
 #### Tuning the controller
 
-**Design Procedure:**
-
 * **Isolation**: The outer loop is deactivated (opened) to tune the inner controller purely on the dynamics of Tank 1.
 * **P-only vs. PI Control**: For the inner loop, a proportional (P) controller is often sufficient and preferred.
   * Why no I-action? Steady-state accuracy for $h_1$ is not the primary goal; the outer controller will eventually compensate for any remaining offset. Adding an integrator in the inner loop would introduce additional phase lag, which limits the achievable speed and increases the risk of oscillations.
@@ -108,11 +106,11 @@ Once the inner loop is tuned and its performance is verified, we treat the entir
 
 To shape the outer loop, we first define the **inner closed-loop transfer function** ($G_{inner,cl}$):
 
-$$G_{inner,cl}(s) = \frac{K_1 \cdot G_{11}(s)}{1 + K_1 \cdot G_{11}(s)}$$
+$$G_{inner,cl}(s) = \frac{K_1(s) \cdot G_{11}(s)}{1 + K_1(s) \cdot G_{11}(s)}$$
 
-The effective plant for the outer controller ($G_{outer}$) then consists of this inner loop in series with the second tank's dynamics ($G_{21}$):
+The effective plant for the outer controller ($G_{outer}$) then consists of this inner loop in series with the second tank's dynamics ($G_{2}$ or more specifically $G_{h1\_to\_h2}$):
 
-$$G_{outer}(s) = G_{inner,cl}(s) \cdot G_{21}(s)$$
+$$G_{outer}(s) = G_{inner,cl}(s) \cdot G_{2}(s)$$
 
 The final open-loop transfer function used for the design of the primary controller $K_2$ is:
 
@@ -124,8 +122,6 @@ $$L_{out}(s) = G_{outer}(s) \cdot K_2(s)$$
 
 #### Learnings
 
-* **Systematic Scaling and Normalization:** The chosen units have a massive impact on controller design. While SI units (meters and cubic meters per second) provide physical consistency, they introduce a significant **scaling discrepancy** in the control loop.
-  * The Scaling Problem: In this specific tank system, a flow rate of $1 \, \text{m}^3/\text{s}$ is physically massive compared to a target level of $0.2 \, \text{m}$. This results in a plant gain ($G_p$) of approximately **80 dB** (a factor of 10,000). System-theoretically, this forces the controller gains ($K_p$) to be extremely small ($< 10^{-3}$) to maintain stability and phase margin. However, such small gains translate physically relevant errors (e.g., 1 cm) into control signals so minute ($10^{-7} \, \text{m}^3/\text{s}$) that they fail to effectively drive the system dynamics or overcome the inertia of the process.
-  * The Solution: Normalization (Per-Unit Approach). To ensure a robust and intuitive controller design, a **Normalization Shell** was implemented around the control logic.
+![results_cascade_controller](data/sim_cascade_model.png)
 
 ## Project Structure

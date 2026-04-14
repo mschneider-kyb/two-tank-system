@@ -48,17 +48,17 @@ sys_new = ss(sys.A, sys.B, C_new, D_new);
 G_new = tf(sys_new);
 
 % choose controller
-Kp1 = 100.0; 
-Ki1 = 0.1;
+Kp1 = 0.011; 
+Ki1 = 0.0;
 K1 = pid(Kp1,Ki1);
 
-Kp2 = 4.2;
-Ki2 = 0.22;
+Kp2 = 5.0;
+Ki2 = 0.28;
 K2 = pid(Kp2,Ki2);
 
 % loop shape inner feedback loop
 G1 = G_new(1,1);
-L_in = G1 * p.v_max * K1;
+L_in = G1 * K1;
 
 figure(1);
 margin(L_in);
@@ -67,10 +67,8 @@ grid on;
 % loop shape outer feedback loop
 sys_inner_cl = feedback(L_in, 1, -1);
 G2 = G_new(2,1) / G_new(1,1); % tf from h1 to h2
-G_outer = 1/p.h_max * G2 * sys_inner_cl;
+G_outer = G2 * sys_inner_cl;
 L_out = G_outer * K2;
-
-L_out2 = 1/p.h_max * ((G2*L_in*K2)/(1+L_in));
 
 figure(2);
 margin(L_out);
