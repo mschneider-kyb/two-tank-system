@@ -48,12 +48,12 @@ sys_new = ss(sys.A, sys.B, C_new, D_new);
 G_new = tf(sys_new);
 
 % choose controller
-Kp1 = 6.5; 
-Ki1 = 0.01;
+Kp1 = 100.0; 
+Ki1 = 0.1;
 K1 = pid(Kp1,Ki1);
 
-Kp2 = 1.0;
-Ki2 = 0.08;
+Kp2 = 4.2;
+Ki2 = 0.22;
 K2 = pid(Kp2,Ki2);
 
 % loop shape inner feedback loop
@@ -77,5 +77,5 @@ margin(L_out);
 grid on;
 
 % simulate
-% out_casc = sim("sim_cascade_model", "StopTime", "1000");
-% plot_results(out_casc);
+out_casc = sim("sim_cascade_model", "StopTime", "1000");
+plot_results(out_casc);

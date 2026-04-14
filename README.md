@@ -122,4 +122,10 @@ $$L_{out}(s) = G_{outer}(s) \cdot K_2(s)$$
 * **Frequency Separation**: A key design constraint is the separation of time scales. We tune $K_2$ such that the crossover frequency of $L_{out}$ is significantly lower (typically by a factor of 5-10) than that of the inner loop. This prevents the two controllers from "fighting" each other or causing resonance
 * **Phase Margin**: Since the inner loop has already compensated for much of the phase lag associated with the first tank, we can typically achieve a robust phase margin ($\Phi_m \approx 60^\circ$) for the outer loop quite easily.
 
+#### Learnings
+
+* **Systematic Scaling and Normalization:** The chosen units have a massive impact on controller design. While SI units (meters and cubic meters per second) provide physical consistency, they introduce a significant **scaling discrepancy** in the control loop.
+  * The Scaling Problem: In this specific tank system, a flow rate of $1 \, \text{m}^3/\text{s}$ is physically massive compared to a target level of $0.2 \, \text{m}$. This results in a plant gain ($G_p$) of approximately **80 dB** (a factor of 10,000). System-theoretically, this forces the controller gains ($K_p$) to be extremely small ($< 10^{-3}$) to maintain stability and phase margin. However, such small gains translate physically relevant errors (e.g., 1 cm) into control signals so minute ($10^{-7} \, \text{m}^3/\text{s}$) that they fail to effectively drive the system dynamics or overcome the inertia of the process.
+  * The Solution: Normalization (Per-Unit Approach). To ensure a robust and intuitive controller design, a **Normalization Shell** was implemented around the control logic.
+
 ## Project Structure
