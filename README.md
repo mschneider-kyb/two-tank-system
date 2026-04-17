@@ -1,5 +1,5 @@
 <p align="center">
-  <font size="6"><b>2-Tank System: Simulation & Control</b></font>
+  <font size="16"><b>2-Tank System: Simulation & Control</b></font>
 </p>
 
 ![Status: WIP](https://img.shields.io/badge/Status-Work--in--Progress-yellow)
@@ -24,6 +24,11 @@ This project implements a numerical simulation and control design for a non-line
   - [Tuning the Controller](#tuning-the-controller)
   - [Learnings](#learnings-1)
 - [Nonlinear Controller using Backstepping](#nonlinear-controller-using-backstepping)
+  - [Motivation for a Nonlinear Controller](#motivation-for-a-nonlinear-controller)
+  - [System Transformation and Controller Design](#system-transformation-and-controller-design)
+  - [Trajectory Generation](#trajectory-generation)
+  - [Selection of Parameters](#selection-of-parameters)
+  - [Results](#results)
   - [Learnings](#learnings-2)
 - [Project Structure](#project-structure)
 
@@ -147,8 +152,41 @@ $$L_{out}(s) = G_{outer}(s) \cdot K_2(s)$$
 
 # Nonlinear Controller using Backstepping
 
-## Learnings
+This section describes the implementation of a nonlinear control approach. Unlike classical PID structures, this method directly incorporates the system dynamics into the controller design. The full mathematical derivation is documented in [this attached file](data/for_readme/backstepping.pdf).
+
+## Motivation for a Nonlinear Controller
+
+Classical linear controllers (such as PID) reach their limits with this multi-tank system because the outflow dynamics are proportional to the square root of the liquid level ($\sqrt{h}$).
+
+- **Operating Point Independence**: While linear controllers are optimized for a specific operating point, the nonlinear backstepping controller provides consistent high performance across the entire operating range.
+- **Coupling Compensation**: This method allows for the explicit compensation of the interaction between the two tanks, rather than treating it as an external disturbance.
+
+## System Transformation and Controller Design
+
+To design the controller, the system must first be brought into a mathematically suitable form.
+
+- **Strict-Feedback Form**: The system is transformed so that the states (levels) form a cascaded structure.
+- **Diffeomorphism**: A suitable coordinate transformation ($x_2 = \sqrt{h_1}$) ensures that the system remains controllable as long as the tanks are not empty.
+- **Lyapunov Stability**: The controller design is based on the construction of a Lyapunov function, which theoretically guarantees that the control error converges exponentially to zero.
+
+## Trajectory Generation
+
+Since backstepping relies on exact linearization, sudden changes in the setpoint can lead to extremely high control signal demands.
+
+- **Setpoint Smoothing**: A second-order lag filter (PT2) converts jump-like specifications into continuously differentiable trajectories.
+- **Feedforward**: The generator provides not only the smoothed setpoint $\tilde{r}$ but also its derivatives ($\dot{\tilde{r}}, \ddot{\tilde{r}}$), which flow directly into the control law as feedforward terms to improve dynamics.
+
+## Selection of Parameters
+
+- **Feedback-Gains ($c_1, c_2$):** These parameters determine the aggressiveness with which the system reacts to deviations.
+- **Filter Tuning ($\omega_0$):** The cutoff frequency of the trajectory generator was chosen so that the pump does not remain in permanent saturation even during large setpoint steps.
+
+## Results
 
 ![results_backstepping_controller](data/sim_backstepping_model.png)
+
+## Learnings
+
+- **Implementation Effort**: The mathematical effort is significantly higher than for linear controllers but results in superior control quality for highly nonlinear systems.
 
 # Project Structure
