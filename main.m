@@ -22,8 +22,8 @@ grid on;
 %% Output control using loopshaping
 
 % get controller
-Kp = 0.00067;
-Ki = 0.0000045;
+Kp = 0.0002;
+Ki = 0.000004;
 K = pid(Kp,Ki);
 
 % Loop shaping is performed on the open-loop transfer function L(s) = K(s) * G_yv(s).
@@ -34,9 +34,21 @@ L = G*K;
 plot_bode(L(1), {0.00001,10}, "Bode Plot of the Open-Loop Tank System", "bode_plot_pi_controller");
 grid on;
 
+% define time for set point change
+t_final = 1000;
+dt_eps = 1e-6;
+t_ref = [0, 10 - dt_eps, 10, 300 - dt_eps, 300, t_final];
+
+% define height
+r_ref = [0.20, 0.20, 0.22, 0.22, 0.22, 0.22]; 
+
+% disturbance
+p.d = 0;
+
 % simulate
 out_pi = sim("sim_pi_model", "StopTime", "1000");
-plot_results(out_pi, p);
+save_plot = false;
+plot_results(out_pi, p, save_plot);
 
 %% Cascade control
 
@@ -76,7 +88,8 @@ grid on;
 
 % simulate
 out_casc = sim("sim_cascade_model", "StopTime", "1000");
-plot_results(out_casc, p);
+save_plot = false;
+plot_results(out_casc, p, save_plot);
 
 %% Reference Trajectory Design for Nonlinear Backstepping
 % Parameters for the 2nd order reference model (PT2-Filter)
@@ -140,4 +153,5 @@ c_2 = 10.0;
 eps = 1e-5;
 
 out_back = sim("sim_backstepping_model", "StopTime", "1000");
-plot_results(out_back, p);
+save_plot = false;
+plot_results(out_back, p, save_plot);

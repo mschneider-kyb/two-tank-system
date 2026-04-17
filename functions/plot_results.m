@@ -1,4 +1,4 @@
-function plot_results(out, p)
+function plot_results(out, p, is_save)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -19,7 +19,7 @@ function plot_results(out, p)
     hold on;
     plot(time, h2, '-', 'LineWidth', 1.5, 'DisplayName', 'Tank 2');
     ylabel('Fill Level [m]');
-    ylim([0.19, 0.23]);
+    ylim([(min(h2)-0.01), (max(h2)+0.01)]);
     
     % right axis
     yyaxis right
@@ -39,10 +39,12 @@ function plot_results(out, p)
     title(sprintf('Simulation Results: %s', modell_name), 'Interpreter', 'none');
     legend('Location', 'best');
 
-    if ~exist('data', 'dir')
-        mkdir('data');
+    if is_save
+        if ~exist('data', 'dir')
+            mkdir('data');
+        end
+        filename = fullfile('data', [modell_name, '.png']);
+        saveas(gcf, filename);
     end
-    filename = fullfile('data', [modell_name, '.png']);
-    saveas(gcf, filename);
 end
 
