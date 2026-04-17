@@ -36,7 +36,7 @@ grid on;
 
 % simulate
 out_pi = sim("sim_pi_model", "StopTime", "1000");
-plot_results(out_pi);
+plot_results(out_pi, p);
 
 %% Cascade control
 
@@ -76,7 +76,7 @@ grid on;
 
 % simulate
 out_casc = sim("sim_cascade_model", "StopTime", "1000");
-plot_results(out_casc);
+plot_results(out_casc, p);
 
 %% Reference Trajectory Design for Nonlinear Backstepping
 % Parameters for the 2nd order reference model (PT2-Filter)
@@ -128,10 +128,16 @@ ylim([19.8, 21.5]);
 
 %% Backstepping control
 
-omega_0 = 3.0;
+% trajectory generator parameters
+omega_0 = 0.33;
 D = 1.0;
 
+% controller gains
 c_1 = 0.9;
-c_2 = 1.8;
+c_2 = 10.0;
 
+% minimum allowed water level
 eps = 1e-5;
+
+out_back = sim("sim_backstepping_model", "StopTime", "1000");
+plot_results(out_back, p);

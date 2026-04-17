@@ -1,4 +1,4 @@
-function plot_results(out)
+function plot_results(out, p)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -25,6 +25,11 @@ function plot_results(out)
     yyaxis right
     plot(time, v, '-', 'LineWidth', 1.2, 'DisplayName', 'v (Pump)');
     plot(time, d, '--', 'LineWidth', 1.2, 'DisplayName', 'd (Disturbance)');
+    yline(p.v_max, '--k', 'v_{max}', ...
+    'LineWidth', 1.5, ...
+    'HandleVisibility', 'off', ...
+    'LabelHorizontalAlignment', 'left', ...
+    'LabelVerticalAlignment', 'bottom');
     ylabel('Flow Rate [m^3/s]');
     set(gca, 'YScale', 'linear');
 
