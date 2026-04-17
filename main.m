@@ -77,3 +77,61 @@ grid on;
 % simulate
 out_casc = sim("sim_cascade_model", "StopTime", "1000");
 plot_results(out_casc);
+
+%% Reference Trajectory Design for Nonlinear Backstepping
+% Parameters for the 2nd order reference model (PT2-Filter)
+% Transfer Function: G(s) = w0^2 / (s^2 + 2*D*w0*s + w0^2)
+
+h2_start = 20;      % Initial water level [cm]
+step_height = 1;    % Desired change in level [cm]
+target_level = h2_start + step_height;
+
+% Test scenarios: [omega_0, Damping, Label]
+% High omega_0 means faster tracking but requires more pump power.
+% Note: We strictly keep D >= 1 for cases 1, 3, and 4 to avoid oscillation.
+configs = [
+    1.0, 1.0;
+    1.0, 0.4;
+    2.0, 1.0;  
+    0.5, 1.0;
+    4.0, 1.0
+];
+
+t = 0:0.01:15; 
+figure('Color', 'w'); hold on; grid on;
+
+for i = 1:size(configs, 1)
+    w0 = configs(i, 1);
+    D  = configs(i, 2);
+    
+    % Transfer Function G(s)
+    sys = tf(w0^2, [1, 2*D*w0, w0^2]);
+    [y, ~] = step(sys * step_height, t);
+    
+    % Generate dynamic legend entry: "Test Case X (w=..., D=...)"
+    legend_str = sprintf('Test Case %d (omega_0=%.1f, D=%.1f)', i, w0, D);
+    
+    plot(t, y + h2_start, 'LineWidth', 2, 'DisplayName', legend_str);
+end
+
+% Visual cues
+yline(target_level, '--k', 'Target', ...
+    'LineWidth', 1.5, ...
+    'HandleVisibility', 'off', ...
+    'LabelHorizontalAlignment', 'left');
+
+title('PT2 Reference Trajectory Generation (r_d)');
+xlabel('Time [s]');
+ylabel('Water Level h_2 [cm]');
+legend('Location', 'southeast', 'Interpreter', 'none'); % 'none' prevents underscore issues
+ylim([19.8, 21.5]);
+
+%% Backstepping control
+
+omega_0 = 3.0;
+D = 1.0;
+
+c_1 = 0.9;
+c_2 = 1.8;
+
+eps = 1e-5;

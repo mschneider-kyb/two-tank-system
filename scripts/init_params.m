@@ -25,8 +25,8 @@ p.A1 = dia2area(p.Dt1);
 p.A2 = dia2area(p.Dt2);
 p.a1 = dia2area(p.Do1);
 p.a2 = dia2area(p.Do2);
-p.k_1 = p.a_1 / p.A_1;
-p.k_2 = p.a_2 / p.A_2;
+p.k_1 = p.a1 / p.A1;
+p.k_2 = p.a2 / p.A2;
 
 % stationary states
 p.h2_bar = cm2m(20);
