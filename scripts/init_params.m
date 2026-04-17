@@ -2,6 +2,7 @@
 
 p.g = 9.81; 
 p.mu = 1;
+p.c = p.mu * sqrt(2*p.g);
 p.h_max = cm2m(30);
 
 % small outflow diameter (cm)
@@ -24,6 +25,8 @@ p.A1 = dia2area(p.Dt1);
 p.A2 = dia2area(p.Dt2);
 p.a1 = dia2area(p.Do1);
 p.a2 = dia2area(p.Do2);
+p.k_1 = p.a_1 / p.A_1;
+p.k_2 = p.a_2 / p.A_2;
 
 % stationary states
 p.h2_bar = cm2m(20);
