@@ -45,3 +45,7 @@ __pycache__/
 *.out
 
 casadi*
+
+# files to keep
+!data/for_readme/backstepping.pdf
+!data/for_readme/derivation_of_equations.pdf
