@@ -2,10 +2,6 @@
   <font size="7"><b>2-Tank System: Simulation & Control</b></font>
 </p>
 
-<div align="center">
-  <span style="font-size: 3em;"><b>2-Tank System: Simulation & Control</b></span>
-</div>
-
 ![Status: WIP](https://img.shields.io/badge/Status-Work--in--Progress-yellow)
 
 This project implements a numerical simulation and control design for a non-linear, coupled two-tank system using MATLAB and Simulink. The goal is to regulate the liquid level in the second tank despite external disturbances.
@@ -117,7 +113,9 @@ While the single-loop PI controller provides basic stability and performance, it
 
 ## The Cascade Architecture
 
-To overcome these limitations, we implement a Cascade Control structure, consisting of two nested loops:
+![cascaded_control_scheme](data/for_readme/cascaded_control_loop.svg)
+
+To overcome these limitations, we assume that we can also measure $h_1$ and implement a Cascade Control structure, consisting of two nested loops:
 
 1. **Inner Loop**: Controls the level of the first tank ($h_1$). It shall react immediately to disturbances and ensuring that the desired level $h_{1,des}$ is maintained.
 2. **Outer Loop**: Controls the final level ($h_2$). It calculates the necessary $h_{1,des}$ to reach the target $h_2$ setpoint.

@@ -1,0 +1,52 @@
+\documentclass[tikz, border=10pt]{standalone}
+\usetikzlibrary{shapes, arrows, positioning, backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+	background rectangle/.style={fill=white},
+    show background rectangle,
+    auto,
+    node distance=0.8cm,
+    >=latex',
+    block/.style={draw, rectangle, minimum height=3em, minimum width=4em},
+    sum/.style={draw, circle, inner sep=0pt, minimum size=2mm},
+    input/.style={coordinate},
+    output/.style={coordinate}
+]
+
+    % --- Nodes ---
+    \node [input] (r) {};
+    \node [sum, right=of r] (sum1) {};
+    \node [block, right=of sum1] (k2) {$K_2(s)$};
+    \node [sum, right=of k2] (sum2) {};
+    \node [block, right=of sum2] (k1) {$K_1(s)$};
+    \node [sum, right=of k1] (sum_d) {};
+    \node [block, right=of sum_d] (g1) {$G_1(s)$};
+    \node [block, right=1.5cm of g1] (g2) {$G_2(s)$};
+    \node [output, right=of g2] (y) {};
+    
+    % Störungshilfspunkt
+    \node [input, above=1cm of sum_d] (d) {};
+
+    % --- Connections ---
+    % Main forward path
+    \draw [->] (r) node[above right] {$r$} -- (sum1);
+    \draw [->] (sum1) -- (k2);
+    \draw [->] (k2) -- node[above] {$w$} (sum2);
+    \draw [->] (sum2) -- (k1);
+    \draw [->] (k1) -- node[above] {$u$} (sum_d);
+    \draw [->] (sum_d) -- (g1);
+    \draw [->] (g1) -- node[name=x1, above] {$x_1$} (g2);
+    \draw [->] (g2) -- (y) node[pos=0.8, above] {$y=x_2$};
+
+    % Disturbance
+    \draw [->] (d) node[right] {$d$} -- (sum_d);
+
+    % Inner feedback loop (x1 to sum2)
+    \draw [->] (x1) -- ++(0,-1.2cm) -| node[pos=0.9, left] {$-$} (sum2);
+
+    % Outer feedback loop (y to sum1)
+    \draw [->] ([xshift=-0.3cm]y.center) -- ++(0,-2cm) -| node[pos=0.9, left] {$-$} (sum1);
+
+\end{tikzpicture}
+\end{document}
