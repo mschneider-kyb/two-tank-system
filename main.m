@@ -147,7 +147,7 @@ ylim([19.8, 21.5]);
 %% Backstepping control
 
 % trajectory generator parameters
-omega_0 = 0.33;
+omega_0 = 0.3;
 D = 1.0;
 
 % controller gains

@@ -1,13 +1,17 @@
 <p align="center">
-  <font size="16"><b>2-Tank System: Simulation & Control</b></font>
+  <font size="7"><b>2-Tank System: Simulation & Control</b></font>
 </p>
+
+<div align="center">
+  <span style="font-size: 3em;"><b>2-Tank System: Simulation & Control</b></span>
+</div>
 
 ![Status: WIP](https://img.shields.io/badge/Status-Work--in--Progress-yellow)
 
 This project implements a numerical simulation and control design for a non-linear, coupled two-tank system using MATLAB and Simulink. The goal is to regulate the liquid level in the second tank despite external disturbances.
 
 <p align="left">
-  <font size="4"><b>Table of Contents</b></font>
+  <font size="5"><b>Table of Contents</b></font>
 </p>
 
 - [System Dynamics](#system-dynamics)
@@ -156,10 +160,11 @@ This section describes the implementation of a nonlinear control approach. Unlik
 
 ## Motivation for a Nonlinear Controller
 
-Classical linear controllers (such as PID) reach their limits with this multi-tank system because the outflow dynamics are proportional to the square root of the liquid level ($\sqrt{h}$).
+While the double-tank system exhibits "benign" nonlinearities that a robustly tuned PI controller can stabilize across a wide range, the nonlinear Backstepping approach was chosen to overcome specific inherent limitations of linear control:
 
-- **Operating Point Independence**: While linear controllers are optimized for a specific operating point, the nonlinear backstepping controller provides consistent high performance across the entire operating range.
-- **Coupling Compensation**: This method allows for the explicit compensation of the interaction between the two tanks, rather than treating it as an external disturbance.
+- **Consistent Error Dynamics**: A PI controller’s performance (settling time and damping) inevitably shifts with the operating point due to the $\sqrt{h}$ term in Torricelli’s law. Backstepping achieves **global linearization**, ensuring that the system's response is identical whether operating at low (5 cm) or high (25 cm) levels. This eliminates the need for compromise between aggressive tuning at high levels and potential oscillations at low levels.
+- **Proactive Coupling Management**: In a linear cascade, the interaction between the tanks is often treated as a disturbance to be rejected. Backstepping utilizes the physical coupling ($h_1$ influencing $h_2$) within the Lyapunov-based design, allowing the controller to "anticipate" the necessary pump action before a level deviation fully manifests.
+- **Guaranteed Global Stability**: Unlike linear controllers, which are typically verified for local stability around an equilibrium point using Lyapunov's first method, the Backstepping design provides a **global stability proof**. This ensures safe operation even during extreme transients or near the physical boundaries (e.g., very low fill levels) where linear approximations fail.
 
 ## System Transformation and Controller Design
 
@@ -185,8 +190,15 @@ Since backstepping relies on exact linearization, sudden changes in the setpoint
 
 ![results_backstepping_controller](data/sim_backstepping_model.png)
 
+The simulation results validate the controller's performance across different operating phases:
+
+- **Disturbance Rejection**: A pulse disturbance was introduced between $t=300\,\text{s}$ and $t=350\,\text{s}$. The controller compensates for this external inflow by automatically adjusting the pump rate. The impact on the controlled variable (Tank 2) is negligible, demonstrating the high robustness of the nonlinear control law.
+- **Precision and Stability**: In steady-state, the system shows zero tracking error. The coupling between Tank 1 and Tank 2 is handled proactively, as seen by the smooth transition of the levels despite the square-root-based outflow characteristics.
+
 ## Learnings
 
-- **Implementation Effort**: The mathematical effort is significantly higher than for linear controllers but results in superior control quality for highly nonlinear systems.
+- **Implementation Effort**: The mathematical effort is significantly higher than for linear controllers but can result in superior control quality for highly nonlinear systems.
+- **The Myth of Infinite Control**: One major learning was that even a mathematically "perfect" nonlinear controller is bound by hardware constraints. The perceived "perfect tracking" of Backstepping only holds as long as the requested control action $u$ is achievable by the pump.
+- **Saturation Management**: This highlights why the Trajectory Generator is so critical. It must be tuned to "slow down" the setpoint changes just enough so that the requested $u$ stays slightly below $u_{max}$, effectively preventing the overshoot while maintaining maximum possible speed.
 
 # Project Structure
