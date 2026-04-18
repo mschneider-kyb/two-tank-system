@@ -4,6 +4,7 @@ p.g = 9.81;
 p.mu = 1;
 p.c = p.mu * sqrt(2*p.g);
 p.h_max = cm2m(30);
+p.dt_eps = 1e-6;
 
 % small outflow diameter (cm)
 p.Dso_cm = 0.4;
@@ -35,7 +36,8 @@ p.v_bar = p.a1*p.mu*sqrt(2*p.g*p.h1_bar);
 p.v_max = 2*p.v_bar;
 
 % disturbance
-p.d = 5e-6;                                     % [d] = m^3/s
+p.d_nom = 6e-6;
+p.d = p.d_nom;                                     % [d] = m^3/s
 p.dt_on = 300;
 p.dt_off = 350;
 

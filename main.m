@@ -34,20 +34,17 @@ L = G*K;
 plot_bode(L(1), {0.00001,10}, "Bode Plot of the Open-Loop Tank System", "bode_plot_pi_controller");
 grid on;
 
-% define time for set point change
+% define set point change
 t_final = 1000;
-dt_eps = 1e-6;
-t_ref = [0, 10 - dt_eps, 10, 300 - dt_eps, 300, t_final];
-
-% define height
-r_ref = [0.20, 0.20, 0.22, 0.22, 0.22, 0.22]; 
+t_ref = [0, 10 - p.dt_eps, 10, 300 - p.dt_eps, 300, t_final];
+r_ref = [0.20, 0.20, 0.22, 0.22, 0.22, 0.22]; % define height
 
 % disturbance
-p.d = 0;
+%p.d = 0;
 
 % simulate
 out_pi = sim("sim_pi_model", "StopTime", "1000");
-save_plot = false;
+save_plot = true;
 plot_results(out_pi, p, save_plot);
 
 %% Cascade control
@@ -86,9 +83,17 @@ figure(2);
 margin(L_out);
 grid on;
 
+% define set point change
+t_final = 1000;
+t_ref = [0, 10 - p.dt_eps, 10, 300 - p.dt_eps, 300, t_final];
+r_ref = [0.20, 0.20, 0.22, 0.22, 0.22, 0.22]; % define height
+
+% disturbance
+%p.d = 0;
+
 % simulate
 out_casc = sim("sim_cascade_model", "StopTime", "1000");
-save_plot = false;
+save_plot = true;
 plot_results(out_casc, p, save_plot);
 
 %% Reference Trajectory Design for Nonlinear Backstepping
@@ -99,7 +104,7 @@ h2_start = 20;      % Initial water level [cm]
 step_height = 1;    % Desired change in level [cm]
 target_level = h2_start + step_height;
 
-% Test scenarios: [omega_0, Damping, Label]
+% Test scenarios: [omega_0, Damping]
 % High omega_0 means faster tracking but requires more pump power.
 % Note: We strictly keep D >= 1 for cases 1, 3, and 4 to avoid oscillation.
 configs = [
@@ -152,6 +157,15 @@ c_2 = 10.0;
 % minimum allowed water level
 eps = 1e-5;
 
+% define set point change
+t_final = 1000;
+t_ref = [0, 10 - p.dt_eps, 10, 300 - p.dt_eps, 300, t_final];
+r_ref = [0.20, 0.20, 0.22, 0.22, 0.22, 0.22]; % define height
+
+% disturbance
+%p.d = 0;
+
+% simulate
 out_back = sim("sim_backstepping_model", "StopTime", "1000");
 save_plot = false;
 plot_results(out_back, p, save_plot);
