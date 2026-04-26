@@ -58,6 +58,7 @@ Where:
 - **Limits**: Maximum allowed tank height is 30cm to prevent overflow.
 - **Actuator Saturation**: To reflect real-world process engineering, the pump is limited to $2 \cdot v_{\text{bar}}$. This assumes the operating point sits at 50% of the maximum capacity.
 - **Disturbance**: A secondary pump constanty extracts water from Tank 1, testing the controller's robustness.
+- **Discharge Coefficient ($\mu$)**: For the PI, Cascaded and Backstepping controller design and simulations, a discharge coefficient of **$\mu = 1.0$** was assumed. This value represents an ideal, frictionless flow without contraction (ideal Torricelli flow).
 
 ## Linearization
 

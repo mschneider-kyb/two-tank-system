@@ -169,3 +169,18 @@ r_ref = [0.20, 0.20, 0.22, 0.22, 0.22, 0.22]; % define height
 out_back = sim("sim_backstepping_model", "StopTime", "1000");
 save_plot = false;
 plot_results(out_back, p, save_plot);
+
+%% Robust Control
+
+% build uncertain system
+mu_unc = ureal('mu', 0.75, 'Range', [0.6, 0.9]);
+p_uncertain = p;
+p_uncertain.mu = mu_unc;
+usys = get_tank_ss(p_uncertain);
+
+% check nominal system for controllability/observability
+nom_sys = usys.NominalValue;
+co_rnk = rank(ctrb(nom_sys))
+ob_rnk = rank(obsv(nom_sys))
+
+
