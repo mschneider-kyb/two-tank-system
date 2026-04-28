@@ -1,7 +1,4 @@
 function plot_results(out, p, is_save)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
     % extract data
     time = out.tout;
     h = out.logsout.get('h').Values.Data;
@@ -33,12 +30,14 @@ function plot_results(out, p, is_save)
     ylabel('Flow Rate [m^3/s]');
     set(gca, 'YScale', 'linear');
 
+    % add grid, label, ...
     grid on;
     xlabel('Time [s]');
     modell_name = out.SimulationMetadata.ModelInfo.ModelName;
     title(sprintf('Simulation Results: %s', modell_name), 'Interpreter', 'none');
     legend('Location', 'best');
 
+    % save plot
     if is_save
         if ~exist('data', 'dir')
             mkdir('data');

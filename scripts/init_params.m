@@ -21,7 +21,7 @@ p.Dt2 = cm2m(4.5);
 p.Do1 = cm2m(p.Dmo_cm);
 p.Do2 = cm2m(p.Dmo_cm);
 
-% areas
+% tank areas
 p.A1 = dia2area(p.Dt1);
 p.A2 = dia2area(p.Dt2);
 p.a1 = dia2area(p.Do1);

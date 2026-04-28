@@ -27,9 +27,11 @@ This project implements a numerical simulation and control design for a non-line
   - [Motivation for a Nonlinear Controller](#motivation-for-a-nonlinear-controller)
   - [System Transformation and Controller Design](#system-transformation-and-controller-design)
   - [Trajectory Generation](#trajectory-generation)
-  - [Selection of Parameters](#selection-of-parameters)
+  - [Selection of Control-Parameters](#selection-of-control-parameters)
   - [Results](#results)
   - [Learnings](#learnings-2)
+- [Future Work: Robust Control (μ-Synthesis)](#future-work-robust-control-μ-synthesis)
+  - [Planned Improvements](#planned-improvements)
 - [Project Structure](#project-structure)
 
 # System Dynamics
@@ -180,7 +182,7 @@ Since backstepping relies on exact linearization, sudden changes in the setpoint
 - **Setpoint Smoothing**: A second-order lag filter (PT2) converts jump-like specifications into continuously differentiable trajectories.
 - **Feedforward**: The generator provides not only the smoothed setpoint $\tilde{r}$ but also its derivatives ($\dot{\tilde{r}}, \ddot{\tilde{r}}$), which flow directly into the control law as feedforward terms to improve dynamics.
 
-## Selection of Parameters
+## Selection of Control-Parameters
 
 - **Feedback-Gains ($c_1, c_2$):** These parameters determine the aggressiveness with which the system reacts to deviations.
 - **Filter Tuning ($\omega_0$):** The cutoff frequency of the trajectory generator was chosen so that the pump does not remain in permanent saturation even during large setpoint steps.
@@ -200,4 +202,21 @@ The simulation results validate the controller's performance across different op
 - **The Myth of Infinite Control**: One major learning was that even a mathematically "perfect" nonlinear controller is bound by hardware constraints. The perceived "perfect tracking" of Backstepping only holds as long as the requested control action $u$ is achievable by the pump.
 - **Saturation Management**: This highlights why the Trajectory Generator is so critical. It must be tuned to "slow down" the setpoint changes just enough so that the requested $u$ stays slightly below $u_{max}$, effectively preventing the overshoot while maintaining maximum possible speed.
 
+# Future Work: Robust Control (μ-Synthesis)
+
+Currently, all controllers (PI, Cascade, Backstepping) are designed assuming an ideal discharge coefficient of $\mu = 1.0$. In real-world applications, $\mu$ varies based on orifice geometry and fluid properties.
+
+## Planned Improvements
+
+- **Uncertainty Modeling**: Modeling $\mu$ as a parametric uncertainty $\mu \in [0.6, 0.9]$ using `ureal`.
+- **LFT Framework**: Construction of a Generalized Plant $\tilde{P}$ including performance weights $W_e$ (tracking) and $W_u$ (control effort).
+- **μ-Synthesis**: Designing a robust controller that guarantees stability and performance across the entire uncertainty range.
+
 # Project Structure
+
+- **`main.m`**: The central entry point. Run this script to initialize parameters, run simulations, and generate plots.
+- **`functions/`**: Contains helper functions for model creation (e.g., `get_tank_ss.m`) and controller design.
+- **`models/`**: Simulink models for the different control architectures as well as the nonlinear model.
+- **`data/`**: Contains the PDF derivations and images for the documentation.
+- **`scripts/`**: Additional scripts e.g. to load the parameters.
+- **`latex/`**: The Latex code (tikz) used to generate the control structure plots.
